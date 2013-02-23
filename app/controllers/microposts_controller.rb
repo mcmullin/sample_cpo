@@ -29,7 +29,6 @@ verify by running your test suite). The easiest solution is to suppress the feed
       @micropost = current_user.microposts.find_by_id(params[:id])
       redirect_to root_url if @micropost.nil?
     end
-
 =begin
 In this case, we use find_by_id instead of find because the latter raises an exception when the micropost doesn’t exist instead 
 of returning nil. By the way, if you’re comfortable with exceptions in Ruby, you could also write the correct_user filter like this:

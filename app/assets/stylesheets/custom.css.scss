@@ -171,9 +171,18 @@ input {
 .field_with_errors {
   @extend .control-group;
   @extend .error;
- }
+}
 
- /* users index */
+#micropost_submit_button {
+  float: left;
+}
+
+#micropost_char_count {
+  float: left;
+  padding: 12px;
+}
+
+/* users index */
 
 .users {
   list-style: none;
