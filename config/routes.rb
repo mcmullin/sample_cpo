@@ -1,7 +1,25 @@
 SmapleApp::Application.routes.draw do
-  resources :users
+  # See how all your routes lay out with "rake routes"
+
+  resources :users do
+    member do
+      get :following, :followers # the URIs will look like /users/1/following and /users/1/followers
+    end
+  end
+
+  # The other possibility, collection, works without the id, so that:
+  # 
+  # resources :users do
+  #   collection do
+  #     get :tigers
+  #   end
+  # end
+  # 
+  # would respond to the URI /users/tigers (presumably to display all the tigers in our application).
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
