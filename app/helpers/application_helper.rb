@@ -1,5 +1,5 @@
 module ApplicationHelper
-	# include ActionView::Helpers::TextHelper # to be able to use pluralize in specs?, views?
+	include ActionView::Helpers::TextHelper # to be able to use pluralize in specs, views?
 
   # Returns the full title on a per-page basis.
   def full_title(page_title)
