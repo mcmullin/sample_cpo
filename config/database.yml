@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: utf8
-  database: sample_development
+  database: cpobaby_development
   pool: 5
   username: 
   password: 
@@ -9,7 +9,7 @@ development:
 test:
   adapter: postgresql
   encoding: utf8
-  database: sample_test
+  database: cpobaby_test
   pool: 5
   username: 
   password: 
