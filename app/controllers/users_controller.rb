@@ -37,9 +37,16 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User destroyed."
-    redirect_to users_url
+    @user = User.find(params[:id])
+    # Exercise 9.6.9 -- Note: prevents deleting any admins (except from console ... right?)
+    # 'unless current_user?(@user)' would prevent deleting (admin) self, but not other admins
+    unless @user.admin?
+      @user.destroy 
+      flash[:success] = "User destroyed."
+      redirect_to users_url
+    else
+      redirect_to root_url
+    end
   end
 
   def index
@@ -64,10 +71,10 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
+      redirect_to(root_url) unless current_user?(@user)
     end
 
     def admin_user
-      redirect_to(root_path) unless current_user.admin?
+      redirect_to(root_url) unless current_user.admin?
     end
 end
