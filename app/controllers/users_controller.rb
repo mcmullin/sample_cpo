@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
+  before_filter :signed_out_user, only: [:new, :create]
   before_filter :correct_user,   only: [:edit, :update]
   before_filter :admin_user,     only: :destroy
   
@@ -38,9 +39,8 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    # Exercise 9.6.9 -- Note: prevents deleting any admins (except from console ... right?)
-    # 'unless current_user?(@user)' would prevent deleting (admin) self, but not other admins
-    unless @user.admin?
+    # 'unless current_user?(@user)' would prevent admin from deleting self, but not from deleting other admins
+    unless @user.admin? # prevents deletion of admins (except from the console, of course)
       @user.destroy 
       flash[:success] = "User destroyed."
       redirect_to users_url
@@ -76,5 +76,9 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to(root_url) unless current_user.admin?
+    end
+
+    def signed_out_user
+      redirect_to(root_url) unless !signed_in?
     end
 end

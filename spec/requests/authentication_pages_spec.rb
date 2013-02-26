@@ -80,7 +80,6 @@ describe "Authentication" do
       end
 
       describe "in the Users controller" do
-
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
           it { should have_selector('title', text: 'Sign in') }
@@ -123,7 +122,6 @@ describe "Authentication" do
       end
 
       describe "in the Microposts controller" do
-
         describe "submitting to the create action" do
           before { post microposts_path }
           specify { response.should redirect_to(signin_path) }
@@ -133,6 +131,21 @@ describe "Authentication" do
           before { delete micropost_path(FactoryGirl.create(:micropost)) }
           specify { response.should redirect_to(signin_path) }
         end
+      end
+    end
+
+    describe "for signed-in users" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { sign_in user }
+
+      describe "visiting the Users#new action" do
+        before { get new_user_path }
+        specify { response.should redirect_to(root_url) }
+      end
+
+      describe "submitting a POST request to the Users#create action" do
+        before { post users_path }
+        specify { response.should redirect_to(root_url) }
       end
     end
 
@@ -162,6 +175,16 @@ describe "Authentication" do
       describe "submitting a DELETE request to the Users#destroy action" do
         before { delete user_path(user) }
         specify { response.should redirect_to(root_path) }        
+      end
+    end
+
+    describe "as admin user" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before { sign_in admin }
+
+      describe "attempting to delete self" do
+        before { delete user_path(admin) }
+        specify { response.should redirect_to(root_url) }
       end
     end
   end
