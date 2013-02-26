@@ -33,10 +33,6 @@ describe "Static pages" do
         end
       end
 
-      it "sidebar should display the correct number of microposts" do
-        page.should have_content("#{pluralize(user.microposts.count, "micropost")}")
-      end
-
       describe "follower/following counts" do
         let(:other_user) { FactoryGirl.create(:user) }
         before do
@@ -44,8 +40,8 @@ describe "Static pages" do
           visit root_path
         end
 
-        it { should have_link("following 0", href: following_user_path(user)) }
-        it { should have_link("1 followers", href: followers_user_path(user)) }
+        it { should have_link("Following 0", href: following_user_path(user)) }
+        it { should have_link("Follower 1", href: followers_user_path(user)) }
       end
     end
   end

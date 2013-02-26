@@ -199,26 +199,49 @@ describe User do
     end
   end
 
-  describe "following" do
+  describe "relationship associations" do
     let(:other_user) { FactoryGirl.create(:user) }    
     before do
       @user.save
       @user.follow!(other_user)
     end
 
-    it { should be_following(other_user) }
-    its(:followed_users) { should include(other_user) }
+    describe "following" do
 
-    describe "followed user" do
-      subject { other_user }
-      its(:followers) { should include(@user) }
+      it { should be_following(other_user) }
+      its(:followed_users) { should include(other_user) }
+
+      describe "followed user" do
+        subject { other_user }
+        its(:followers) { should include(@user) }
+      end
+
+      describe "and unfollowing" do
+        before { @user.unfollow!(other_user) }
+
+        it { should_not be_following(other_user) }
+        its(:followed_users) { should_not include(other_user) }
+      end
     end
 
-    describe "and unfollowing" do
-      before { @user.unfollow!(other_user) }
+    describe "should destroy associated microposts" do
 
-      it { should_not be_following(other_user) }
-      its(:followed_users) { should_not include(other_user) }
+      before do
+        other_user.follow!(@user)
+        @user.destroy
+      end
+
+      it "relationships" do
+        @user.relationships.each do |relationship|
+          Relationship.find_by_id(relationship.id).should be_nil
+        end
+      end
+
+      it "reverse_relationships" do
+        @user.reverse_relationships.each do |reverse_relationship|
+          Relationship.find_by_id(reverse_relationship.id).should be_nil
+        end
+      end
     end
   end
 end

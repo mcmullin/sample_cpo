@@ -1,0 +1,10 @@
+<a href="<%= followers_user_path(@user) %>">
+  <% if @user.followers.count == 1 %>
+    Follower
+  <% else %>
+    Followers
+  <% end %>
+  <strong id="followers" class="stat">
+    <%= @user.followers.count %>
+  </strong>
+</a>
