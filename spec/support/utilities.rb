@@ -1,5 +1,9 @@
 include ApplicationHelper
 
+include EmailSpec::Helpers
+include EmailSpec::Matchers
+# include Rails.application.routes.url_helpers
+
 def sign_in(user)
   visit signin_path
   fill_in "Email",    with: user.email

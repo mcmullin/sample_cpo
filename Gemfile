@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'thin'
 gem 'foreman'
+gem 'mail'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -20,6 +21,8 @@ end
 
 group :development do
   gem 'annotate'
+  # gem 'brakeman'
+  # gem 'guard-brakeman'
 end
 
 group :test do
@@ -30,6 +33,7 @@ group :test do
   gem 'rb-fsevent', :require => false
   gem 'growl'
   gem 'factory_girl_rails'
+  gem 'email_spec'
 end
 
 # Gems used only for assets and not required
