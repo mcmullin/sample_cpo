@@ -53,7 +53,7 @@ CPObaby::Application.configure do
   ActionMailer::Base.smtp_settings = {
     address:              "smtp.gmail.com",
     port:                 587,
-    domain:               ENV['SMTP_DOMAIN'],
+    domain:               "cpobaby.com",
     user_name:            ENV['SMTP_USERNAME'],
     password:             ENV['SMTP_PASSWORD'],
     authentication:       "plain",
@@ -64,7 +64,6 @@ CPObaby::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.default_url_options = { host: "cpobaby.herokuapp.com" }
-
 
   # Enable threaded mode
   # config.threadsafe!
