@@ -2,14 +2,16 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  email           :string(255)
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  password_digest :string(255)
-#  remember_token  :string(255)
-#  admin           :boolean          default(FALSE)
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  email             :string(255)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  password_digest   :string(255)
+#  remember_token    :string(255)
+#  admin             :boolean          default(FALSE)
+#  confirmation_code :string(255)
+#  activated         :boolean          default(FALSE)
 #
 
 require 'spec_helper'
@@ -37,6 +39,9 @@ describe User do
   it { should respond_to(:following?) }
   it { should respond_to(:follow!) }
   it { should respond_to(:unfollow!) }
+  it { should respond_to(:confirmation_code) }
+  #it { should respond_to(:aasm_state) }
+  it { should respond_to(:activated) }
 
   it { should be_valid }
   it { should_not be_admin }

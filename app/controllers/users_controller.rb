@@ -17,9 +17,11 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       UserMailer.registration_confirmation(@user).deliver
-      flash[:success] = "Welcome to CPObaby!"
-      sign_in @user
-      redirect_to @user
+      #flash[:success] = "Welcome to CPObaby!"
+      #sign_in @user
+      #redirect_to @user
+      flash[:success] = "Thank you for registering! Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end
@@ -66,6 +68,20 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
+  end
+
+  def confirm
+    @user = User.find(params[:id])
+    @code = params[:confirmation_code]
+    if @user.confirmation_code == @code
+      @user.update_attributes(activated: true)
+      flash[:success] = "Account activated. Welcome to CPObaby!"
+      sign_in @user
+      redirect_to @user
+    else
+      flash[:warning] = "Incorrect account activation code."
+      redirect_to root_url
+    end
   end
 
   private

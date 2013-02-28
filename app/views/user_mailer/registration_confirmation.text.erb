@@ -2,5 +2,10 @@
 
 Thank you for registering!
 
-Please click the following link to confirm your account: 
-<%= link_to "something", "#" %>
+To activate your account, please click the following link 
+(or copy and paste it into your browser's address bar):
+<%= url_for(only_path: false,
+						controller: "users", 
+						id: "#{@user.id}", 
+						action: "confirm", 
+						confirmation_code: "#{@user.confirmation_code}") %>

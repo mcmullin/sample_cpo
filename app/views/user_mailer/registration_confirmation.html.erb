@@ -2,4 +2,10 @@
 
 <p>Thank you for registering!</p>
 
-<p>Please <%= link_to "click here", "#" %> to confirm your account.</p>
+<p>Click the following link to activate your account:
+<%= url_for(only_path: false,
+						controller: "users", 
+						id: "#{@user.id}", 
+						action: "confirm", 
+						confirmation_code: "#{@user.confirmation_code}") %>.
+</p>

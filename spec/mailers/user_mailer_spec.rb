@@ -20,9 +20,12 @@ describe UserMailer do
 			should have_body_text("Thank you for registering!")
 		end
 
-		#should NOT be passing
-		#it "should contain a link to the confirmation link" do
-		#	should have_body_text("#{confirm_account_url}")
-		#end
+		it "should contain a link to confirm the user" do
+			should have_body_text(url_for(only_path: false,
+																		controller: "users", 
+																		id: "#{user.id}", 
+																		action: "confirm", 
+																		confirmation_code: "#{user.confirmation_code}"))
+		end
 	end
 end

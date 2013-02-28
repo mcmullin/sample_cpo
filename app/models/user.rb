@@ -2,18 +2,39 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  email           :string(255)
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  password_digest :string(255)
-#  remember_token  :string(255)
-#  admin           :boolean          default(FALSE)
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  email             :string(255)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  password_digest   :string(255)
+#  remember_token    :string(255)
+#  admin             :boolean          default(FALSE)
+#  confirmation_code :string(255)
+#  activated         :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :email, :password, :password_confirmation
+  #include AASM
+
+  #scope :active_users, -> { where(aasm_state: "active") }
+  attr_accessible :name, :email, :password, :password_confirmation, :activated
+
+=begin
+  aasm do
+    state :inactive, initial: true
+    state :active
+
+    event :activate do #, before: :process_purchase do
+      transitions from: :inactive, to: :active #, guard: :valid_payment?
+    end
+
+    event :deactivate do
+      transitions from: :active, to: :inactive
+    end
+  end
+=end
+
   has_secure_password
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -30,6 +51,8 @@ class User < ActiveRecord::Base
 
   before_save { email.downcase! } # equivalent to "before_save { |user| user.email = email.downcase }"
   before_save :create_remember_token
+  before_save :create_confirmation_code
+
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
@@ -56,5 +79,9 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
+    end
+
+    def create_confirmation_code
+      self.confirmation_code = SecureRandom.urlsafe_base64
     end
 end

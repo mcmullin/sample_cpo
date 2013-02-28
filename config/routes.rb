@@ -4,6 +4,7 @@ CPObaby::Application.routes.draw do
   resources :users do
     member do
       get :following, :followers # the URIs will look like /users/1/following and /users/1/followers
+      match '/confirm/:confirmation_code', via: :get, to: 'users#confirm', as: :confirm
     end
   end
 
