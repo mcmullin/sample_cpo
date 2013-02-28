@@ -114,10 +114,41 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by_email('user@example.com') }
 
-        it { should have_selector('title', text: user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_selector('title', text: full_title('')) }
+        it { should have_selector('div.alert.alert-success', text: 'Thank you for registering!') }
+        it { should have_link('Sign in') }
 
-        it { should have_link('Sign out') }
+        specify { user.reload.activated?.should  == false }
+
+        describe "after visiting an incorrect confirmation link" do
+          let(:confirm_user_url) { url_for(only_path: false, 
+                                            controller: "users", 
+                                            id: "#{user.id}", 
+                                            action: "confirm", 
+                                            confirmation_code: "#{user.confirmation_code}ZZZ") }
+          before { visit confirm_user_url }
+
+          it { should have_selector('title', text: full_title('')) }
+          it { should have_selector('div.alert.alert-error', text: 'Incorrect confirmation url.') }
+          it { should have_link('Sign in') }
+
+          specify { user.reload.activated?.should  == false }
+        end
+
+        describe "after visiting the correct confirmation link" do
+          let(:confirm_user_url) { url_for(only_path: false, 
+                                            controller: "users", 
+                                            id: "#{user.id}", 
+                                            action: "confirm", 
+                                            confirmation_code: "#{user.confirmation_code}") }
+          before { visit confirm_user_url }
+
+          it { should have_selector('title', text: user.name) }
+          it { should have_selector('div.alert.alert-success', text: 'Email confirmed.') }
+          it { should have_link('Sign out') }
+
+          specify { user.reload.activated?.should  == true }
+        end
       end
     end
   end

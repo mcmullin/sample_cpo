@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
+  before_filter :signed_in_user,  only: [:index, :edit, :update, :destroy, :following, :followers]
   before_filter :signed_out_user, only: [:new, :create]
-  before_filter :correct_user,   only: [:edit, :update]
-  before_filter :admin_user,     only: :destroy
+  before_filter :correct_user,    only: [:edit, :update]
+  before_filter :admin_user,      only: :destroy #[:index, :destroy]
   
   def show
     @user = User.find(params[:id])
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       #flash[:success] = "Welcome to CPObaby!"
       #sign_in @user
       #redirect_to @user
-      flash[:success] = "Thank you for registering! Please check your email to activate your account."
+      flash[:success] = "Thank you for registering! Please check your email for a link to activate your account."
       redirect_to root_url
     else
       render 'new'
@@ -74,12 +74,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @code = params[:confirmation_code]
     if @user.confirmation_code == @code
-      @user.update_attributes(activated: true)
-      flash[:success] = "Account activated. Welcome to CPObaby!"
+      @user.update_attribute(:activated, true)
+      # "@user.toggle!(:activated)" would also work, but confirm should never set :activated to false
+      flash[:success] = "Email confirmed. Welcome to CPObaby!"
       sign_in @user
       redirect_to @user
     else
-      flash[:warning] = "Incorrect account activation code."
+      flash[:error] = "Incorrect confirmation url."
       redirect_to root_url
     end
   end

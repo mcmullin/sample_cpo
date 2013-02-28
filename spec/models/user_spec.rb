@@ -40,7 +40,6 @@ describe User do
   it { should respond_to(:follow!) }
   it { should respond_to(:unfollow!) }
   it { should respond_to(:confirmation_code) }
-  #it { should respond_to(:aasm_state) }
   it { should respond_to(:activated) }
 
   it { should be_valid }
@@ -51,7 +50,13 @@ describe User do
       expect do
         User.new(admin: false)
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end    
+    end
+
+    it "should not allow access to activated attribute" do
+      expect do
+        User.new(activated: false)
+      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
   end
 
   describe "with admin attribute set to 'true'" do
@@ -61,6 +66,15 @@ describe User do
     end
 
     it { should be_admin }
+  end
+
+  describe "with activated attribute set to 'true'" do
+    before do
+      @user.save!
+      @user.toggle!(:activated)
+    end
+
+    it { should be_activated }
   end
 
   describe "when name is not present" do
@@ -157,6 +171,11 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank } # equivalent to "it { @user.remember_token.should_not be_blank }"
+  end
+
+  describe "confirmation_code" do
+    before { @user.save }
+    its(:confirmation_code) { should_not be_blank }
   end
 
   describe "micropost associations" do

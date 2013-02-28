@@ -13,7 +13,7 @@ describe UserMailer do
 		end
 
 		it "should have the correct subject" do
-			should have_subject("Welcome! Please confirm your account")
+			should have_subject("Welcome! Please confirm your account.")
 		end
 
 		it "should contain welcome body text" do

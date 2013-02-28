@@ -15,25 +15,7 @@
 #
 
 class User < ActiveRecord::Base
-  #include AASM
-
-  #scope :active_users, -> { where(aasm_state: "active") }
-  attr_accessible :name, :email, :password, :password_confirmation, :activated
-
-=begin
-  aasm do
-    state :inactive, initial: true
-    state :active
-
-    event :activate do #, before: :process_purchase do
-      transitions from: :inactive, to: :active #, guard: :valid_payment?
-    end
-
-    event :deactivate do
-      transitions from: :active, to: :inactive
-    end
-  end
-=end
+  attr_accessible :name, :email, :password, :password_confirmation
 
   has_secure_password
   has_many :microposts, dependent: :destroy
@@ -74,7 +56,11 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     relationships.find_by_followed_id(other_user.id).destroy
   end
-
+=begin
+  def activated?
+    self.activated
+  end
+=end
   private
 
     def create_remember_token
