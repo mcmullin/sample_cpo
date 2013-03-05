@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (3.0.16)
     actionmailer (3.2.11)
       actionpack (= 3.2.11)
       mail (~> 2.4.4)
@@ -153,6 +152,10 @@ GEM
     rb-fsevent (0.9.1)
     rdoc (3.12)
       json (~> 1.4)
+    roo (1.10.3)
+      nokogiri (>= 1.5.6)
+      rubyzip (>= 0.9.9)
+      spreadsheet (> 0.6.4)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -166,6 +169,7 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.11.0)
+    ruby-ole (1.2.11.6)
     rubyzip (0.9.9)
     sass (3.2.5)
     sass-rails (3.2.5)
@@ -179,6 +183,8 @@ GEM
       rubyzip
     slop (3.3.3)
     spork (0.9.2)
+    spreadsheet (0.8.2)
+      ruby-ole (>= 1.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -207,7 +213,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aasm
   annotate
   bcrypt-ruby
   bootstrap-sass
@@ -228,6 +233,7 @@ DEPENDENCIES
   pg
   rails
   rb-fsevent
+  roo
   rspec-rails
   sass-rails
   spork

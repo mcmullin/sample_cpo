@@ -8,15 +8,12 @@ CPObaby::Application.routes.draw do
     end
   end
 
-  # The other possibility, collection, works without the id, so that:
-  # 
-  # resources :users do
-  #   collection do
-  #     get :tigers
-  #   end
-  # end
-  # 
-  # would respond to the URI /users/tigers (presumably to display all the tigers in our application).
+  resources :products do
+    collection do
+      post :import
+    end
+  end
+  match '/products', to: 'products#index'
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
@@ -30,6 +27,18 @@ CPObaby::Application.routes.draw do
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
+
+  # The other possibility, collection, works without the id, so that:
+  # 
+  # resources :users do
+  #   collection do
+  #     get :tigers
+  #   end
+  # end
+  # 
+  # would respond to the URI /users/tigers (presumably to display all the tigers in our application).
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

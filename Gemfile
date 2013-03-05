@@ -11,7 +11,7 @@ gem 'pg'
 gem 'thin'
 gem 'foreman'
 gem 'mail'
-gem 'aasm'
+gem 'roo'
 
 group :development, :test do
   gem 'rspec-rails'

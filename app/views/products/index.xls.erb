@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Item</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">Retail</Data></Cell>
+        <Cell><Data ss:Type="String">CPO</Data></Cell>
+        <Cell><Data ss:Type="String">Points</Data></Cell>
+        <Cell><Data ss:Type="String">Category</Data></Cell>
+      </Row>
+    <% @products.each do |product| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= product.item %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= product.description %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.retail %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.cpo %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.points %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= product.category %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
