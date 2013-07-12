@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails'
+gem 'nokogiri'
 gem 'bootstrap-sass'
-gem 'bcrypt-ruby'
+gem 'bcrypt-ruby', '~> 3.0.1'
 gem 'faker'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
@@ -12,22 +13,24 @@ gem 'thin'
 gem 'foreman'
 gem 'mail'
 gem 'roo'
+gem 'best_in_place'
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'spork'
+  gem 'dotenv-rails'
 end
 
 group :development do
   gem 'annotate'
-  # gem 'brakeman'
+  gem 'brakeman'
   # gem 'guard-brakeman'
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '1.1.2'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'

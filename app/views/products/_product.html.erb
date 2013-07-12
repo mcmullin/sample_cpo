@@ -1,0 +1,26 @@
+<% product ||= @product %>
+<tr>
+	<% if current_user.admin? %>
+		<td>
+			<% unless controller.action_name == 'show' %>
+				<%= link_to 'show', product %> |
+			<% end %>
+			<%= link_to 'edit', edit_product_path(product) %> | 
+	  	<%= link_to "destroy", product, method: :delete, data: { confirm: "You sure?" } %>
+  	</td>
+  	<td><%= best_in_place product, :item %></td>
+	<% else %>
+		<td>
+			<% unless controller.action_name == 'show' %>
+				<%= link_to product.item, product %>
+			<% else %>
+				<%= product.item %>
+			<% end %>
+		</td>
+	<% end %>
+  <td><%= best_in_place_if current_user.admin?, product, :description %></td>
+  <td><%= best_in_place_if current_user.admin?, product, :retail, display_with: :number_to_currency %></td>
+  <td><%= best_in_place_if current_user.admin?, product, :cpo %></td>
+  <td><%= best_in_place_if current_user.admin?, product, :points %></td>
+  <td><%= best_in_place_if current_user.admin?, product, :category %></td>
+</tr>

@@ -1,12 +1,18 @@
 class Product < ActiveRecord::Base
   attr_accessible :item, :description, :retail, :cpo, :points, :category
 
-  VALID_ITEM_REGEX = /\A\d{2,4}[-12RCWPHTSDBK]{0,5}\z/
+  # has_many :prices
+  # accepts_nested_attributes_for :prices, :allow_destroy => true
+
+  # has_many :line_items
+  # before_destroy :ensure_not_referenced_by_any_line_item
+
+	VALID_ITEM_REGEX = /\A\d{2,4}[-12RCWPHTSDBK]{0,6}\z/
   validates :item, presence: true, format: { with: VALID_ITEM_REGEX }, uniqueness: true
   validates :description, presence: true
-  validates :retail, presence: true
-  #validates :cpo, presence: true
-  #validates :points, presence: true
+  validates :retail, presence: true, numericality: true
+  validates :cpo, numericality: true
+  validates :points, numericality: true
   validates :category, presence: true
 
   def self.to_csv(options = {})
@@ -38,5 +44,17 @@ class Product < ActiveRecord::Base
 	  else raise "Unknown file type: #{file.original_filename}"
 	  end
 	end
+
+	private
+
+    # ensure that there are no line items referencing this product
+    def ensure_not_referenced_by_any_line_item
+      if line_items.empty?
+        return true
+      else
+        errors.add(:base, 'Line Items present')
+        return false
+      end
+    end
 
 end

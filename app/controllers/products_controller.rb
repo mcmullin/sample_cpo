@@ -1,5 +1,86 @@
 class ProductsController < ApplicationController
-  def new
+	before_filter :signed_in_user,  only: [:show, :new, :create, :edit, :update, :destroy, :index, :import]
+	before_filter :admin_user,      only: [:new, :create, :edit, :update, :destroy, :import]
+
+	respond_to :html, :json
+
+	def show
+		@product = Product.find(params[:id])
+	end
+
+	def new
+  	@product = Product.new
+  end
+
+  def create
+  	@product = Product.new(params[:product])
+    if @product.save
+      flash[:success] = "Product #{@product.item} added"
+      redirect_to products_url
+    else
+      render 'new'
+    end
+  end
+
+  def edit
+  	@product = Product.find(params[:id])
+  end
+
+=begin
+  def update
+  	@product = Product.find(params[:id])
+  	if @product.update_attributes(params[:product])
+      flash[:success] = "Product updated"
+      redirect_to products_url
+    else
+      render 'edit'
+    end
+  end
+
+
+
+	def update
+	  @product = Product.find(params[:id])
+
+	  respond_to do |format|
+	    if @product.update_attributes(params[:product])
+	      format.html { redirect_to(@product, :notice => 'Product was successfully updated.') }
+	      format.json { respond_with_bip(@product) }
+	    else
+	      format.html { render :action => "edit" }
+	      format.json { respond_with_bip(@product) }
+	    end
+	  end
+	end
+
+
+
+	def update
+    @product = Product.find(params[:id])
+    if @product.update_attributes(params[:product])
+    	flash[:success] = "Successfully updated #{@product.item}"
+    end
+    # respond_with(@product, :location => products_url)
+  end
+=end
+
+	def update
+    @product = Product.find(params[:id])
+    @product.update_attributes(params[:product])
+    respond_with @product
+  end
+
+  def destroy
+  	@product = Product.find(params[:id])
+    if current_user.admin? 
+    	proditemnum = "#{@product.item}"
+      @product.destroy 
+      flash[:success] = "Product #{proditemnum} removed."
+      redirect_to products_url
+    else
+    	flash[:error] = "You do not have permission to remove Product #{proditemnum}"
+      redirect_to products_url
+    end
   end
 
   def index
@@ -16,4 +97,11 @@ class ProductsController < ApplicationController
 	  flash[:success] = "Products imported."
 	  redirect_to products_url
 	end
+
+	private
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
+
 end

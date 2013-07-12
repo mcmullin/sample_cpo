@@ -1,4 +1,9 @@
 CPObaby::Application.routes.draw do
+  resources :line_items
+
+
+  get "orders/new"
+
   # See how all your routes lay out with "rake routes"
 
   resources :users do
