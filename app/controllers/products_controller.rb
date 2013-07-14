@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
   def create
   	@product = Product.new(params[:product])
     if @product.save
-      flash[:success] = "Product #{@product.item} added"
+      flash[:success] = "Product #{@product.item_number} added"
       redirect_to products_url
     else
       render 'new'
@@ -73,18 +73,18 @@ class ProductsController < ApplicationController
   def destroy
   	@product = Product.find(params[:id])
     if current_user.admin? 
-    	proditemnum = "#{@product.item}"
+    	proditnum = "#{@product.item_number}"
       @product.destroy 
-      flash[:success] = "Product #{proditemnum} removed."
+      flash[:success] = "Product #{proditnum} removed."
       redirect_to products_url
     else
-    	flash[:error] = "You do not have permission to remove Product #{proditemnum}"
+    	flash[:error] = "You do not have permission to remove Product #{proditnum}"
       redirect_to products_url
     end
   end
 
   def index
-	  @products = Product.order(:item)
+	  @products = Product.order(:item_number)
 	  respond_to do |format|
 	    format.html
 	    format.csv { send_data @products.to_csv }

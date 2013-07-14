@@ -7,21 +7,21 @@
   <Worksheet ss:Name="Sheet1">
     <Table>
       <Row>
-        <Cell><Data ss:Type="String">Item</Data></Cell>
+        <Cell><Data ss:Type="String">Item Number</Data></Cell>
         <Cell><Data ss:Type="String">Description</Data></Cell>
-        <Cell><Data ss:Type="String">Retail</Data></Cell>
-        <Cell><Data ss:Type="String">CPO</Data></Cell>
-        <Cell><Data ss:Type="String">Points</Data></Cell>
         <Cell><Data ss:Type="String">Category</Data></Cell>
+        <Cell><Data ss:Type="String">Retail Price</Data></Cell>
+        <Cell><Data ss:Type="String">CPO</Data></Cell>
+        <Cell><Data ss:Type="String">Point Value</Data></Cell>
       </Row>
     <% @products.each do |product| %>
       <Row>
-        <Cell><Data ss:Type="String"><%= product.item %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= product.item_number %></Data></Cell>
         <Cell><Data ss:Type="String"><%= product.description %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= product.retail %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= product.cpo %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= product.points %></Data></Cell>
         <Cell><Data ss:Type="String"><%= product.category %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.current_retail_price %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.current_cpo %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.current_point_value %></Data></Cell>
       </Row>
     <% end %>
     </Table>

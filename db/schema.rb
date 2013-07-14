@@ -23,14 +23,14 @@ ActiveRecord::Schema.define(:version => 20130301154705) do
   add_index "microposts", ["user_id", "created_at"], :name => "index_microposts_on_user_id_and_created_at"
 
   create_table "products", :force => true do |t|
-    t.string   "item"
+    t.string   "item_number"
     t.string   "description"
-    t.float    "retail"
-    t.float    "cpo"
-    t.float    "points"
     t.string   "category"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.decimal  "current_retail_price"
+    t.decimal  "current_cpo"
+    t.decimal  "current_point_value"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "relationships", :force => true do |t|

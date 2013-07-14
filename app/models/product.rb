@@ -1,19 +1,17 @@
 class Product < ActiveRecord::Base
-  attr_accessible :item, :description, :retail, :cpo, :points, :category
-
-  # has_many :prices
-  # accepts_nested_attributes_for :prices, :allow_destroy => true
+  attr_accessible :item_number, :description, :category, :current_retail_price, :current_cpo, :current_point_value
 
   # has_many :line_items
   # before_destroy :ensure_not_referenced_by_any_line_item
 
-	VALID_ITEM_REGEX = /\A\d{2,4}[-12RCWPHTSDBK]{0,6}\z/
-  validates :item, presence: true, format: { with: VALID_ITEM_REGEX }, uniqueness: true
+	VALID_ITEM_NUMBER_REGEX = /\A\d{2,4}[-12RCWPHTSDBK]{0,6}\z/
+  validates :item_number, presence: true, format: { with: VALID_ITEM_NUMBER_REGEX }, uniqueness: true
   validates :description, presence: true
-  validates :retail, presence: true, numericality: true
-  validates :cpo, numericality: true
-  validates :points, numericality: true
   validates :category, presence: true
+  validates :current_retail_price, presence: true, numericality: true
+  #validates :current_cpo, numericality: true
+  #validates :current_point_value, numericality: true
+  
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
@@ -37,7 +35,7 @@ class Product < ActiveRecord::Base
 
 	def self.open_spreadsheet(file)
 	  case File.extname(file.original_filename)
-	  when '.csv' then Csv.new(file.path, nil, :ignore)
+	  when '.csv' then Roo::Csv.new(file.path, nil, :ignore)
 	  #when '.ods' then Openoffice.new(file.path, nil, :ignore)
 	  when '.xls' then Roo::Excel.new(file.path, nil, :ignore)
 	  when '.xlsx' then Excelx.new(file.path, nil, :ignore)

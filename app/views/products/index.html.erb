@@ -14,9 +14,9 @@
     <% end %>
   </div>
   <p>
-    Download list as:
-    <%= link_to ".CSV", products_path(format: "csv") %> |
-    <%= link_to ".XLS", products_path(format: "xls") %>
+    download list as:
+    <%= link_to ".csv", products_path(format: "csv") %> |
+    <%= link_to ".xls", products_path(format: "xls") %>
   </p>
 <% end %>
 
@@ -25,12 +25,12 @@
     <% if current_user.admin? %>
       <th>(admin)</th>
     <% end %>
-    <th>Item</th>
+    <th>Item Number</th>
     <th>Description</th>
-    <th>Retail</th>
-    <th>CPO</th>
-    <th>Points</th>
     <th>Category</th>
+    <th>Retail Price</th>
+    <th>CPO</th>
+    <th>Point Value</th>
   </tr>
   <% @products.each do |product| %>
     <%= render 'product', product: product %>

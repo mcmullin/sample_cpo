@@ -2,34 +2,35 @@ require 'spec_helper'
 
 describe Product do
 
-  before { @product = Product.new(item: "1000R", description: "fake knife", retail: "100", cpo: "90", points: "75", category: "none") }
+  before { @product = Product.new(item_number: "1000R", description: "fake knife", category: "none",
+                                  current_retail: "100", current_cpo: "90", current_points: "75", ) }
 
   subject { @product }
 
-  it { should respond_to(:item) }
+  it { should respond_to(:item_number) }
   it { should respond_to(:description) }
-  it { should respond_to(:retail) }
-  it { should respond_to(:cpo) }
-  it { should respond_to(:points) }
   it { should respond_to(:category) }
+  it { should respond_to(:current_retail) }
+  it { should respond_to(:current_cpo) }
+  it { should respond_to(:current_points) }
 
   it { should be_valid }
 
-  describe "when item is not present" do
-    before { @product.item = " " }
+  describe "when item number is not present" do
+    before { @product.item_number = " " }
     it { should_not be_valid }
   end
 
-  describe "when item is nil" do
-  	before { @product.item = nil }
+  describe "when item number is nil" do
+  	before { @product.item_number = nil }
   	it { should_not be_valid }
 	end
 
   describe "when item number is invalid" do
     it "should be invalid" do
-      items = %w[100G 200H-1Z 1 10000 1000r]
-      items.each do |invalid_item|
-        @product.item = invalid_item
+      item_numbers = %w[100G 200H-1Z 1 10000 1000r]
+      item_numbers.each do |invalid_item_number|
+        @product.item_number = invalid_item_number
         @product.should_not be_valid
       end      
     end
@@ -37,9 +38,9 @@ describe Product do
 
   describe "when item number is valid" do
     it "should be valid" do
-      items = %w[1000WRB 81 777-1 100H-2 5000DBDD-2]
-      items.each do |valid_item|
-        @product.item = valid_item
+      item_numbers = %w[1000WRB 81 777-1 100H-2 5000DBDD-2]
+      item_numbers.each do |valid_item_number|
+        @product.item_number = valid_item_number
         @product.should be_valid
       end      
     end
@@ -48,7 +49,7 @@ describe Product do
   describe "when item number is already taken" do
     before do
       product_with_same_item = @product.dup
-      product_with_same_item.item = @product.item.upcase
+      product_with_same_item.item_number = @product.item_number.upcase
       product_with_same_item.save
     end
 
@@ -65,6 +66,16 @@ describe Product do
   	it { should_not be_valid }
 	end
 
-	# numericality
+	describe "when category is not present" do
+    before { @product.category = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when category is nil" do
+    before { @product.category = nil }
+    it { should_not be_valid }
+  end
+
+  # current values' numericality
 
 end

@@ -1,17 +1,17 @@
 <% provide(:title, 'View Product') %>
-<h1><%= "#{@product.item}" %></h1>
+<h1><%= "#{@product.item_number}" %></h1>
 
 <table id="products" class="table table-striped table-bordered">
   <tr>
     <% if current_user.admin? %>
       <th>(admin)</th>
     <% end %>
-    <th>Item</th>
+    <th>Item Number</th>
     <th>Description</th>
-    <th>Retail</th>
-    <th>CPO</th>
-    <th>Points</th>
     <th>Category</th>
+    <th>Retail Price</th>
+    <th>CPO</th>
+    <th>Point Value</th>
   </tr>
   <%= render @product %>
 </table>
