@@ -1,4 +1,7 @@
 CPObaby::Application.routes.draw do
+  resources :orders
+
+
   resources :line_items
 
 

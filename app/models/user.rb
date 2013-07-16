@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
   # "has_many :followers, through: :reverse_relationships" since, in the case of a :followers attribute, 
   # Rails will singularize “followers” and automatically look for the foreign key follower_id in this case.
 
+  has_many :orders
+
   before_save { email.downcase! } # equivalent to "before_save { |user| user.email = email.downcase }"
   before_save :create_remember_token
   before_save :create_confirmation_code

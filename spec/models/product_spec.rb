@@ -3,16 +3,16 @@ require 'spec_helper'
 describe Product do
 
   before { @product = Product.new(item_number: "1000R", description: "fake knife", category: "none",
-                                  current_retail: "100", current_cpo: "90", current_points: "75", ) }
+                                  current_retail_price: "100", current_cpo: "90", current_point_value: "75", ) }
 
   subject { @product }
 
   it { should respond_to(:item_number) }
   it { should respond_to(:description) }
   it { should respond_to(:category) }
-  it { should respond_to(:current_retail) }
+  it { should respond_to(:current_retail_price) }
   it { should respond_to(:current_cpo) }
-  it { should respond_to(:current_points) }
+  it { should respond_to(:current_point_value) }
 
   it { should be_valid }
 

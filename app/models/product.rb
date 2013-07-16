@@ -1,8 +1,8 @@
 class Product < ActiveRecord::Base
   attr_accessible :item_number, :description, :category, :current_retail_price, :current_cpo, :current_point_value
 
-  # has_many :line_items
-  # before_destroy :ensure_not_referenced_by_any_line_item
+  has_many :line_items
+  before_destroy :ensure_not_referenced_by_any_line_item
 
 	VALID_ITEM_NUMBER_REGEX = /\A\d{2,4}[-12RCWPHTSDBK]{0,6}\z/
   validates :item_number, presence: true, format: { with: VALID_ITEM_NUMBER_REGEX }, uniqueness: true

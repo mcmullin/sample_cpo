@@ -1,0 +1,20 @@
+<%= simple_form_for(@order, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :number, :input_html => { :class => "span6" } %>
+    <%= f.input :date, as: :date, start_year: 1949, end_year: Date.today.year + 1, order: [:day, :month, :year] %>
+    <%= f.input :user_id, collection: @users %>
+  </div>
+
+  <%= f.simple_fields_for :line_items do |line_items_form| %>
+    <%= line_items_form.association :order %>
+    <%= line_items_form.association :product %>
+    <%= line_items_form.input :quantity %>
+    <%= line_items_form.input :free %>
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
