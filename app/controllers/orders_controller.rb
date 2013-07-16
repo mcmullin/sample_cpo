@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
   # GET /orders/new.json
   def new
     @order = Order.new
-    4.times { @order.line_items.build }
+    4.times { @order.line_items.build(params[:order_id]) }
 
     respond_to do |format|
       format.html # new.html.erb
