@@ -1,40 +1,36 @@
 CPObaby::Application.routes.draw do
-  resources :orders
-
-
-  resources :line_items
-
-
-  get "orders/new"
-
   # See how all your routes lay out with "rake routes"
+
+  root to: 'static_pages#home'
+  match '/help',    to: 'static_pages#help'
+  match '/about',   to: 'static_pages#about'
+  match '/contact', to: 'static_pages#contact'
 
   resources :users do
     member do
       get :following, :followers # the URIs will look like /users/1/following and /users/1/followers
-      match '/confirm/:confirmation_code', via: :get, to: 'users#confirm', as: :confirm
+      match '/confirm/:confirmation_code', via: :get, to: 'users#confirm', as: :confirm 
     end
   end
+
+  match '/signup',  to: 'users#new'
+  match '/signin',  to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
+
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   resources :products do
     collection do
       post :import
     end
   end
-  match '/products', to: 'products#index'
+  #match '/products', to: 'products#index'
 
-  resources :sessions, only: [:new, :create, :destroy]
-  resources :microposts, only: [:create, :destroy]
-  resources :relationships, only: [:create, :destroy]
-
-  match '/signup',  to: 'users#new'
-  match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
-
-  root to: 'static_pages#home'
-  match '/help',    to: 'static_pages#help'
-  match '/about',   to: 'static_pages#about'
-  match '/contact', to: 'static_pages#contact'
+  resources :orders
+  #resources :line_items
+  
 
   # The other possibility, collection, works without the id, so that:
   # 

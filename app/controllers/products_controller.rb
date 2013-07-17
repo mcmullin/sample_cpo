@@ -72,15 +72,15 @@ class ProductsController < ApplicationController
 
   def destroy
   	@product = Product.find(params[:id])
-    if current_user.admin? 
+    #if current_user.admin? 
     	proditnum = "#{@product.item_number}"
       @product.destroy 
       flash[:success] = "Product #{proditnum} removed."
       redirect_to products_url
-    else
-    	flash[:error] = "You do not have permission to remove Product #{proditnum}"
-      redirect_to products_url
-    end
+    #else
+    #	 flash[:error] = "You do not have permission to remove Product #{proditnum}"
+    #  redirect_to products_url
+    #end
   end
 
   def index

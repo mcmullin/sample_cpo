@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
-  # GET /orders
-  # GET /orders.json
+  before_filter :signed_in_user,  only: [:index, :show, :new, :edit, :create, :update, :destroy]
+  before_filter :correct_user,    only: [:edit, :update]
+  before_filter :admin_user,      only: [:index, :destroy]
+
   def index
     @orders = Order.all
 
@@ -10,8 +12,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # GET /orders/1
-  # GET /orders/1.json
   def show
     @order = Order.find(params[:id])
 
@@ -21,8 +21,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # GET /orders/new
-  # GET /orders/new.json
   def new
     @order = Order.new
     4.times { @order.line_items.build(params[:order_id]) }
@@ -33,15 +31,12 @@ class OrdersController < ApplicationController
     end
   end
 
-  # GET /orders/1/edit
   def edit
     @order = Order.find(params[:id])
   end
 
-  # POST /orders
-  # POST /orders.json
   def create
-    @order = Order.new(params[:order])
+    @order = current_user.orders.build(params[:order])
 
     respond_to do |format|
       if @order.save
@@ -54,8 +49,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # PUT /orders/1
-  # PUT /orders/1.json
   def update
     @order = Order.find(params[:id])
 
@@ -70,8 +63,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # DELETE /orders/1
-  # DELETE /orders/1.json
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
@@ -81,4 +72,16 @@ class OrdersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+    def correct_user
+      @order = current_user.orders.find_by_id(params[:id])
+      redirect_to root_url if @order.nil?
+    end
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
+
 end

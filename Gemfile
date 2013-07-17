@@ -16,6 +16,7 @@ gem 'mail'
 gem 'roo'
 gem 'best_in_place'
 gem 'simple_form'
+gem 'nested_form'
 
 group :development, :test do
   gem 'rspec-rails'
